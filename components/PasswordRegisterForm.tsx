@@ -60,10 +60,12 @@ export const PasswordRegisterForm: React.FC<PasswordRegisterFormProps> = ({
       if (err instanceof Error) {
         const errorMessage = err.message;
 
-        if (errorMessage.includes("Email already in use")) {
+        if (errorMessage.includes("email already in use")) {
           setError(
             "This email is already registered. Please try logging in instead."
           );
+        } else if (errorMessage.includes("Failed to execute 'json'")) {
+          setError("Server error. Please try again later.");
         } else if (errorMessage.toLowerCase().includes("display name")) {
           setError("Please provide a valid display name that isn't empty.");
         } else if (
@@ -76,7 +78,7 @@ export const PasswordRegisterForm: React.FC<PasswordRegisterFormProps> = ({
         }
       } else {
         console.log("Unknown error type:", err);
-        setError("Registration failed. Please try again.");
+        setError("Server connection failed. Please try again.");
       }
     } finally {
       setIsLoading(false);

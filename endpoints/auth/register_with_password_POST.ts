@@ -23,7 +23,7 @@ export async function handle(request: Request) {
 
     if (existingUser.length > 0) {
       return Response.json(
-        { message: "email already in use" },
+        { message: "Email already in use" },
         { status: 409 }
       );
     }
@@ -82,6 +82,10 @@ export async function handle(request: Request) {
         ...newUser,
         role: "user" as const,
       },
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     // Set session cookie
@@ -96,6 +100,11 @@ export async function handle(request: Request) {
     console.error("Registration error:", error);
     const errorMessage =
       error instanceof Error ? error.message : "Registration failed";
-    return Response.json({ message: errorMessage }, { status: 400 });
+    return Response.json({ message: errorMessage }, { 
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
