@@ -14,20 +14,29 @@ export async function adaptEndpoint(endpointPath, req, res) {
     
     // More comprehensive TypeScript to JavaScript conversion
     let jsContent = tsContent
+      // Remove all TypeScript import type statements first
+      .replace(/import\s+type\s+\{[^}]*\}\s+from\s+[^;]+;?\s*/g, '')
+      .replace(/import\s+type\s+[^;]+;?\s*/g, '')
+      
+      // Handle mixed imports with type keyword
+      .replace(/import\s*\{\s*([^}]*?),\s*type\s+[^}]*\}\s*from\s*([^;]+);?/g, 'import { $1 } from $2;')
+      .replace(/import\s*\{\s*type\s+[^,}]*,\s*([^}]*?)\}\s*from\s*([^;]+);?/g, 'import { $1 } from $2;')
+      .replace(/import\s*\{\s*([^,}]*?),\s*type\s+[^}]*,\s*([^}]*?)\}\s*from\s*([^;]+);?/g, 'import { $1, $2 } from $3;')
+      
+      // Remove type keyword from imports
+      .replace(/import\s*\{\s*type\s+([^}]+)\s*\}\s*from\s*([^;]+);?/g, '')
+      .replace(/,\s*type\s+[^,}]+/g, '')
+      .replace(/type\s+([^,}]+),/g, '')
+      
       // Remove TypeScript type annotations and interfaces
-      .replace(/interface\s+\w+\s*{[^}]*}/g, '')
+      .replace(/interface\s+\w+\s*\{[^}]*\}/g, '')
       .replace(/type\s+\w+\s*=\s*[^;]+;/g, '')
       .replace(/:\s*\w+(\[\])?(\s*\|\s*\w+(\[\])?)*(?=\s*[,)=;])/g, '')
       .replace(/:\s*Promise<[^>]+>/g, '')
       .replace(/:\s*Request/g, '')
       .replace(/:\s*Response/g, '')
       .replace(/as\s+\w+/g, '')
-      
-      // Handle TypeScript import type statements
-      .replace(/import\s+type\s+[^;]+;/g, '')
-      .replace(/import\s*{\s*type\s+([^}]+)\s*}\s*from\s*[^;]+;/g, '')
-      .replace(/import\s*{\s*([^,}]+),\s*type\s+([^}]+)\s*}\s*from\s*([^;]+);/g, 'import { $1 } from $3;')
-      .replace(/import\s*{\s*type\s+([^,}]+),\s*([^}]+)\s*}\s*from\s*([^;]+);/g, 'import { $2 } from $3;')
+      .replace(/<[^>]+>/g, '') // Remove generic type parameters
       
       // Handle import statements - convert all .ts/.tsx extensions to .js
       .replace(/from\s+['"]([^'"]+)\.tsx?['"];?/g, (match, path) => {
@@ -44,6 +53,10 @@ export async function adaptEndpoint(endpointPath, req, res) {
       
       // Convert export function to regular function for dynamic import
       .replace(/export\s+async\s+function\s+handle/g, 'async function handle')
+      
+      // Clean up any remaining type-related syntax
+      .replace(/export\s+type\s+[^;]+;/g, '')
+      .replace(/export\s+interface\s+\w+\s*\{[^}]*\}/g, '')
       
       // Add export at the end
       .replace(/$/, '\n\nexport { handle };');
