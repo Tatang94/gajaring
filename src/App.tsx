@@ -1,31 +1,27 @@
 
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import SplashScreen from '../components/SplashScreen'
+import { GlobalContextProviders } from '../components/_globalContextProviders'
+import LoginPage from '../pages/login'
+import { UserRoute } from '../components/ProtectedRoute'
 
 function App() {
-  const [showSplash, setShowSplash] = React.useState(true)
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false)
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  if (showSplash) {
-    return <SplashScreen />
-  }
-
   return (
-    <Router>
-      <div className="app">
+    <GlobalContextProviders>
+      <Router>
         <Routes>
-          <Route path="/" element={<div>Welcome to GAJARING!</div>} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={
+            <UserRoute>
+              <div style={{ padding: '2rem', textAlign: 'center' }}>
+                <h1>Welcome to GAJARING!</h1>
+                <p>You are successfully logged in.</p>
+              </div>
+            </UserRoute>
+          } />
         </Routes>
-      </div>
-    </Router>
+      </Router>
+    </GlobalContextProviders>
   )
 }
 
