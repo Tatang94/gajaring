@@ -3,7 +3,6 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs/promises';
-import { adaptEndpoint } from './endpointAdapter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,8 +29,39 @@ async function handleEndpoint(req, res, endpointPath) {
       return res.status(404).json({ error: 'Endpoint not found' });
     }
 
-    // Use the adapter to handle TypeScript endpoint files
-    await adaptEndpoint(fullPath, req, res);
+    // Import the TypeScript endpoint file directly (ts-node will handle compilation)
+    const module = await import(`file://${fullPath}?t=${Date.now()}`);
+    
+    if (typeof module.handle === 'function') {
+      // Create a Web API Request object from Express req
+      const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+      const webRequest = new Request(url, {
+        method: req.method,
+        headers: req.headers,
+        body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined
+      });
+
+      // Call the endpoint handler with Web API Request
+      const webResponse = await module.handle(webRequest);
+      
+      if (webResponse && webResponse instanceof Response) {
+        // Set status
+        res.status(webResponse.status || 200);
+        
+        // Set headers
+        webResponse.headers.forEach((value, key) => {
+          res.set(key, value);
+        });
+        
+        // Send response body
+        const responseText = await webResponse.text();
+        res.send(responseText);
+      } else {
+        res.status(500).json({ error: 'Invalid response from endpoint' });
+      }
+    } else {
+      res.status(500).json({ error: 'No handle function found' });
+    }
   } catch (error) {
     console.error('Endpoint error:', error);
     res.status(500).json({ 
