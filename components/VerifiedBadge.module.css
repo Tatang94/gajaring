@@ -1,0 +1,12 @@
+.badgeContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  vertical-align: middle; /* Aligns badge with text */
+}
+
+.icon {
+  color: var(--info);
+  stroke-width: 2.5;
+}

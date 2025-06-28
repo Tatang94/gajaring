@@ -1,0 +1,134 @@
+.container {
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+/* Mobile-specific full width styling */
+@media (max-width: 639px) {
+  .container {
+    padding: var(--spacing-2);
+    margin: 0;
+    width: 100vw;
+    max-width: none;
+    min-width: 100vw;
+    box-sizing: border-box;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 640px) {
+  .container {
+    padding: var(--spacing-4);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.header {
+  padding-bottom: var(--spacing-4);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-4);
+  color: var(--foreground);
+}
+
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: var(--spacing-3);
+  color: var(--muted-foreground);
+  pointer-events: none;
+  z-index: var(--z-content-low);
+}
+
+.searchInput {
+  padding-left: calc(var(--spacing-3) * 2 + 20px);
+  width: 100%;
+}
+
+.tabs {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabsList {
+  width: 100%;
+  justify-content: space-around;
+  margin-bottom: var(--spacing-4);
+}
+
+.tabContent {
+  flex-grow: 1;
+}
+
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--muted-foreground);
+  height: 100%;
+  flex-grow: 1;
+  padding: var(--spacing-8);
+}
+
+.placeholderIcon {
+  margin-bottom: var(--spacing-4);
+  opacity: 0.5;
+}
+
+.skeletonUser {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) 0;
+}
+
+.skeletonUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.errorState {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--error);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--muted-foreground);
+  padding: var(--spacing-8);
+}
+
+.emptyState .placeholderIcon {
+  margin-bottom: var(--spacing-4);
+  opacity: 0.5;
+}

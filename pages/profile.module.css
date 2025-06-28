@@ -1,0 +1,23 @@
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  padding: var(--spacing-4);
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.statsLoading {
+  display: flex;
+  gap: var(--spacing-4);
+  justify-content: center;
+  width: 100%;
+}
+

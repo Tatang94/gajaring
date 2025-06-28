@@ -1,0 +1,156 @@
+.container {
+  padding: 0;
+  width: 100%;
+  margin: 0;
+}
+
+/* Mobile-specific full width styling */
+@media (max-width: 639px) {
+  .container {
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    max-width: none;
+    min-width: 100vw;
+    box-sizing: border-box;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 640px) {
+  .container {
+    padding: var(--spacing-4);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.header {
+  padding: var(--spacing-3) var(--spacing-2);
+  text-align: center;
+  margin-bottom: var(--spacing-3);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Mobile-specific full width styling */
+@media (max-width: 639px) {
+  .header {
+    padding: var(--spacing-3) var(--spacing-2);
+    margin: 0 0 var(--spacing-3) 0;
+    width: 100vw;
+    max-width: none;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 640px) {
+  .header {
+    padding: var(--spacing-4) 0;
+    margin-bottom: var(--spacing-4);
+  }
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--primary);
+  letter-spacing: 0.05em;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 var(--spacing-2);
+}
+
+/* Mobile-specific full width styling */
+@media (max-width: 639px) {
+  .feed {
+    padding: 0 var(--spacing-2);
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 640px) {
+  .feed {
+    gap: var(--spacing-4);
+    padding: 0;
+  }
+}
+
+.postSkeleton {
+  background-color: var(--card);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  border: 1px solid var(--border);
+}
+
+.skeletonHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-3);
+}
+
+.skeletonUserInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.skeletonActions {
+  display: flex;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-3);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--border);
+}
+
+.errorState {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--muted-foreground);
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: var(--error);
+  margin-top: var(--spacing-2);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--muted-foreground);
+}
+
+.endMessage {
+  text-align: center;
+  padding: var(--spacing-4);
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+}
+
+/* Dark mode adjustments */
+:global(.dark) .title {
+  color: var(--primary);
+}
+
+:global(.dark) .postSkeleton {
+  background-color: var(--card);
+  border-color: var(--border);
+}
+
+:global(.dark) .skeletonActions {
+  border-color: var(--border);
+}

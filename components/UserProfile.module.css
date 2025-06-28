@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2);
+  border-radius: var(--radius-md);
+  transition: background-color var(--animation-duration-fast) ease;
+  width: 100%;
+}
+
+.container:hover {
+  background-color: var(--muted);
+}
+
+.profileLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-decoration: none;
+  flex-grow: 1;
+  color: inherit;
+}
+
+.avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.name {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.username {
+  font-size: 0.9rem;
+  color: var(--muted-foreground);
+}
+
+.followButton {
+  margin-left: auto;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.editButton {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}

@@ -1,0 +1,91 @@
+.container {
+  padding: var(--spacing-4);
+  width: 100%;
+  margin: 0;
+}
+
+/* Mobile-specific full width styling */
+@media (max-width: 639px) {
+  .container {
+    padding: var(--spacing-2);
+    margin: 0;
+    width: 100vw;
+    max-width: none;
+    min-width: 100vw;
+    box-sizing: border-box;
+  }
+}
+
+/* Tablet and larger screens */
+@media (min-width: 640px) {
+  .container {
+    padding: var(--spacing-4);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.header {
+  padding-bottom: var(--spacing-4);
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-2);
+}
+
+.title {
+  font-family: var(--font-family-heading);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.markAllButton {
+  color: var(--primary);
+}
+
+.unreadBadge {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.errorState {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--error);
+}
+
+.emptyState {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--muted-foreground);
+}
+
+.notificationsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonNotification {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.skeletonContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}

@@ -1,0 +1,50 @@
+.formContainer {
+  background-color: var(--surface);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.formTitle {
+  font-family: var(--font-family-heading);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-6);
+  color: var(--foreground);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.radioGroup {
+  display: flex;
+  gap: var(--spacing-4);
+}
+
+.radioItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: 0.9rem;
+}
+
+.radioItem label {
+  cursor: pointer;
+}
+
+.switchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-2) 0;
+}
+
+.submitButton {
+  margin-top: var(--spacing-4);
+  width: fit-content;
+  align-self: flex-end;
+}

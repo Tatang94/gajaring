@@ -1,0 +1,50 @@
+import { z } from 'zod';
+import { UserRole } from '../../helpers/schema';
+
+export const schema = z.object({
+  limit: z.number().min(1).max(100).default(20),
+  cursor: z.number().optional().nullable(),
+});
+
+export type InputType = z.infer<typeof schema>;
+
+export type AdminUserView = {
+    id: number;
+    displayName: string;
+    username: string | null;
+    email: string;
+    avatarUrl: string | null;
+    bio: string | null;
+    role: UserRole | null;
+    followersCount: number | null;
+    followingCount: number | null;
+    postsCount: number | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+};
+
+export type OutputType = {
+  users: AdminUserView[];
+  nextCursor: number | null;
+};
+
+export const getAdminUsers = async (params: InputType, init?: RequestInit): Promise<OutputType> => {
+  const searchParams = new URLSearchParams();
+  if (params.limit) searchParams.append('limit', String(params.limit));
+  if (params.cursor) searchParams.append('cursor', String(params.cursor));
+
+  const result = await fetch(`/_api/admin/users?${searchParams.toString()}`, {
+    method: 'GET',
+    ...init,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(init?.headers ?? {}),
+    },
+  });
+
+  if (!result.ok) {
+    const errorObject = await result.json();
+    throw new Error(errorObject.error || 'Failed to fetch users for admin');
+  }
+  return result.json();
+};

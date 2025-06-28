@@ -1,0 +1,78 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: background-color var(--animation-duration-fast) ease;
+}
+
+.card:hover {
+  background-color: var(--muted);
+}
+
+.disabled {
+  cursor: default;
+}
+
+.disabled:hover {
+  background-color: transparent;
+}
+
+.unread {
+  background-color: color-mix(in srgb, var(--primary) 5%, transparent);
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--foreground);
+}
+
+.userName {
+  font-weight: 600;
+}
+
+.postContent {
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+.timeAgo {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  margin-top: var(--spacing-1);
+  display: block;
+}
+
+.unreadDot {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: var(--primary);
+  border-radius: var(--radius-full);
+  margin-left: auto;
+  flex-shrink: 0;
+}

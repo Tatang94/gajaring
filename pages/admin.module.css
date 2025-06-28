@@ -1,0 +1,127 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-6) var(--spacing-4);
+}
+
+.tabs {
+  margin-top: var(--spacing-6);
+}
+
+.content {
+  padding-top: var(--spacing-6);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3);
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: background-color var(--animation-duration-fast);
+}
+
+.listItem:hover {
+  background-color: var(--muted);
+}
+
+.itemMain {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  min-width: 0;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.name:hover {
+  text-decoration: underline;
+}
+
+.email {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.postContent {
+  font-size: 0.9rem;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-shrink: 0;
+}
+
+.roleSelect {
+  width: 120px;
+}
+
+.roleIcon {
+  margin-right: var(--spacing-2);
+}
+
+.error {
+  text-align: center;
+  padding: var(--spacing-8);
+  color: var(--error);
+  background-color: color-mix(in srgb, var(--error) 10%, transparent);
+  border-radius: var(--radius-md);
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-4);
+}
+
+/* Ad Management Styles */
+.adManagement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.adHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
