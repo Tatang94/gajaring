@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "./Tooltip";
 import { SonnerToaster } from "./SonnerToaster";
 import { AuthProvider } from "../helpers/useAuth";
-import SplashScreen from "./SplashScreen";
+import { SplashScreen } from "./SplashScreen";
 import { useActiveAds } from "../helpers/useAds";
 import { AdScript } from "./AdScript";
 
