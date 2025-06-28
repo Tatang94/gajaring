@@ -8,7 +8,7 @@ interface SplashScreenProps {
   className?: string;
 }
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({ 
+const SplashScreen: React.FC<SplashScreenProps> = ({ 
   onFinish,
   className 
 }) => {
@@ -53,3 +53,5 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     </div>
   );
 };
+
+export default SplashScreen;
