@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { GlobalContextProviders } from '../components/_globalContextProviders'
 import Login from "../pages/login";
-import Register from "../pages/register";
+import { Register } from "../pages/register";
 import { UserRoute } from '../components/ProtectedRoute'
 
 function App() {
