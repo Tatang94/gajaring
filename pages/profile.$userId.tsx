@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { Helmet } from 'react-helmet';
 import { Calendar, UserPlus, Users, Edit } from 'lucide-react';
 import { useUserProfile, useUserPosts } from '../helpers/useUserProfile';
@@ -10,6 +10,10 @@ import { PostCard } from '../components/PostCard';
 import { Skeleton } from '../components/Skeleton';
 import { Spinner } from '../components/Spinner';
 import styles from './profile.$userId.module.css';
+
+interface ProfilePageProps {
+  userId?: string;
+}
 
 const ProfilePageSkeleton = () => (
   <div className={styles.container}>
@@ -38,9 +42,18 @@ const ProfilePageSkeleton = () => (
   </div>
 );
 
-const ProfilePage = () => {
-  const { userId } = useParams();
-  const numericUserId = Number(userId);
+const ProfilePage: React.FC<ProfilePageProps> = ({ userId }) => {
+  const router = useRouter();
+  
+  // Get userId from props (Next.js) or from URL params (React Router)
+  const numericUserId = userId ? Number(userId) : (() => {
+    if (typeof window !== 'undefined') {
+      const pathParts = window.location.pathname.split('/');
+      return Number(pathParts[pathParts.length - 1]);
+    }
+    return 0;
+  })();
+  
   const authState = useCurrentUser();
 
   const { data: profile, isFetching: isProfileFetching, error: profileError } = useUserProfile(numericUserId);
@@ -98,8 +111,8 @@ const ProfilePage = () => {
             <div className={styles.nameAndAction}>
               <h1 className={styles.displayName}>{profile.displayName}</h1>
               {isOwnProfile ? (
-                <Button variant="outline" size="sm" asChild>
-                  <Link to="/settings/profile"><Edit size={16} /> Edit Profile</Link>
+                <Button variant="outline" size="sm" onClick={() => router.push('/settings')}>
+                  <Edit size={16} /> Edit Profile
                 </Button>
               ) : (
                 <Button size="sm"><UserPlus size={16} /> Follow</Button>
