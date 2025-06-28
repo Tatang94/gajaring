@@ -23,6 +23,12 @@ export async function adaptEndpoint(endpointPath, req, res) {
       .replace(/:\s*Response/g, '')
       .replace(/as\s+\w+/g, '')
       
+      // Handle TypeScript import type statements
+      .replace(/import\s+type\s+[^;]+;/g, '')
+      .replace(/import\s*{\s*type\s+([^}]+)\s*}\s*from\s*[^;]+;/g, '')
+      .replace(/import\s*{\s*([^,}]+),\s*type\s+([^}]+)\s*}\s*from\s*([^;]+);/g, 'import { $1 } from $3;')
+      .replace(/import\s*{\s*type\s+([^,}]+),\s*([^}]+)\s*}\s*from\s*([^;]+);/g, 'import { $2 } from $3;')
+      
       // Handle import statements - convert all .ts/.tsx extensions to .js
       .replace(/from\s+['"]([^'"]+)\.tsx?['"];?/g, (match, path) => {
         return match.replace(/\.tsx?/, '.js');
