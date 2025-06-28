@@ -1,11 +1,10 @@
-
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { PasswordRegisterForm } from "../components/PasswordRegisterForm";
 import styles from "./register.module.css";
 
-export function Register() {
+const Register = () => {
   return (
     <>
       <Helmet>
@@ -34,4 +33,6 @@ export function Register() {
       </div>
     </>
   );
-}
+};
+
+export default Register;

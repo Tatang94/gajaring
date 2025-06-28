@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { PasswordLoginForm } from '../components/PasswordLoginForm';
 import styles from './login.module.css';
 
-const LoginPage: React.FC = () => {
+const Login: React.FC = () => {
   return (
     <>
       <Helmet>
@@ -37,4 +37,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default Login;
