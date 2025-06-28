@@ -5,10 +5,10 @@
   "description": "GAJARING Social Network App",
   "type": "module",
   "scripts": {
-    "dev": "combini dev",
-    "build": "combini build",
-    "start": "combini start",
-    "preview": "combini preview"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "start": "vite --host 0.0.0.0 --port 5000"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
@@ -23,18 +23,23 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "@radix-ui/react-tooltip": "^1.0.7",
+    "@radix-ui/react-context-menu": "^2.1.5",
     "cmdk": "^0.2.0",
-    "combini": "latest",
     "kysely": "^0.27.3",
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1",
     "sonner": "^1.4.41",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "clsx": "^2.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "typescript": "^5.0.0"
+    "@vitejs/plugin-react": "^4.0.3",
+    "typescript": "^5.0.0",
+    "vite": "^4.4.5"
   }
 }
