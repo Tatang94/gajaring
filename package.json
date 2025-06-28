@@ -2,14 +2,11 @@
   "name": "gajaring",
   "version": "1.0.0",
   "description": "GAJARING Social Network App",
-  "type": "module",
   "scripts": {
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "dev:server": "node --loader ts-node/esm server/index.js",
-    "dev:client": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "start": "vite --host 0.0.0.0 --port 5000"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
@@ -31,31 +28,25 @@
     "bcryptjs": "^2.4.3",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
-    "concurrently": "^8.2.2",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
     "jose": "^5.2.0",
     "kysely": "^0.27.3",
     "kysely-postgres-js": "^2.0.0",
     "lucide-react": "^0.263.1",
+    "next": "^14.0.0",
     "postgres": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
-    "react-router-dom": "^6.8.1",
     "sonner": "^1.4.41",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
     "@types/node": "^20.11.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.0.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.0.0",
-    "vite": "^4.4.5"
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "typescript": "^5.0.0"
   }
 }
