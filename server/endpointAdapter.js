@@ -12,34 +12,43 @@ export async function adaptEndpoint(endpointPath, req, res) {
     // Convert TypeScript endpoint to JavaScript equivalent
     const tsContent = await fs.readFile(endpointPath, 'utf-8');
     
-    // Simple TypeScript to JavaScript conversion
+    // More comprehensive TypeScript to JavaScript conversion
     let jsContent = tsContent
-      // Handle all import statements and convert .ts extensions to .js
-      .replace(/from\s+['"]([^'"]+)['"];?/g, (match, path) => {
-        // Convert relative imports by adding .js extension
-        if (path.startsWith('./') || path.startsWith('../')) {
-          // If path already has .ts extension, replace with .js
-          if (path.endsWith('.ts')) {
-            return match.replace(path, path.replace(/\.ts$/, '.js'));
-          }
-          // If no extension, add .js
-          if (!path.includes('.')) {
-            return match.replace(path, path + '.js');
-          }
+      // Remove TypeScript type annotations and interfaces
+      .replace(/interface\s+\w+\s*{[^}]*}/g, '')
+      .replace(/type\s+\w+\s*=\s*[^;]+;/g, '')
+      .replace(/:\s*\w+(\[\])?(\s*\|\s*\w+(\[\])?)*(?=\s*[,)=;])/g, '')
+      .replace(/:\s*Promise<[^>]+>/g, '')
+      .replace(/:\s*Request/g, '')
+      .replace(/:\s*Response/g, '')
+      .replace(/as\s+\w+/g, '')
+      
+      // Handle import statements - convert all .ts/.tsx extensions to .js
+      .replace(/from\s+['"]([^'"]+)\.tsx?['"];?/g, (match, path) => {
+        return match.replace(/\.tsx?/, '.js');
+      })
+      
+      // Handle relative imports without extensions - add .js
+      .replace(/from\s+['"](\.[^'"]*?)['"];?/g, (match, path) => {
+        if (!path.includes('.')) {
+          return match.replace(path, path + '.js');
         }
         return match;
       })
+      
+      // Convert export function to regular function for dynamic import
       .replace(/export\s+async\s+function\s+handle/g, 'async function handle')
-      .replace(/: Request/g, '')
-      .replace(/: Response/g, '')
-      .replace(/: Promise<Response>/g, '');
+      
+      // Add export at the end
+      .replace(/$/, '\n\nexport { handle };');
 
     // Create a temporary file to execute
-    const tempPath = join(__dirname, 'temp_endpoint.js');
+    const tempPath = join(__dirname, `temp_endpoint_${Date.now()}.js`);
     await fs.writeFile(tempPath, jsContent);
 
     try {
-      const module = await import(`file://${tempPath}`);
+      // Import with cache busting
+      const module = await import(`file://${tempPath}?t=${Date.now()}`);
       
       if (typeof module.handle === 'function') {
         // Create a Web API Request object from Express req
