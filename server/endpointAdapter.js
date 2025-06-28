@@ -7,32 +7,6 @@ import fs from 'fs/promises';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Mock Response class for endpoint handlers
-class MockResponse {
-  constructor() {
-    this.headers = new Map();
-    this.statusCode = 200;
-    this.body = null;
-  }
-
-  static json(data, options = {}) {
-    const response = new MockResponse();
-    response.body = JSON.stringify(data);
-    response.statusCode = options.status || 200;
-    response.headers.set('Content-Type', 'application/json');
-    return response;
-  }
-
-  json(data) {
-    this.body = JSON.stringify(data);
-    this.headers.set('Content-Type', 'application/json');
-    return this;
-  }
-}
-
-// Make Response available globally for endpoint handlers
-global.Response = MockResponse;
-
 export async function adaptEndpoint(endpointPath, req, res) {
   try {
     // Convert TypeScript endpoint to JavaScript equivalent
@@ -61,24 +35,29 @@ export async function adaptEndpoint(endpointPath, req, res) {
       const module = await import(`file://${tempPath}`);
       
       if (typeof module.handle === 'function') {
-        const mockResponse = await module.handle(req);
+        // Create a Web API Request object from Express req
+        const url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        const webRequest = new Request(url, {
+          method: req.method,
+          headers: req.headers,
+          body: req.method !== 'GET' && req.method !== 'HEAD' ? JSON.stringify(req.body) : undefined
+        });
+
+        // Call the endpoint handler with Web API Request
+        const webResponse = await module.handle(webRequest);
         
-        if (mockResponse && mockResponse.body) {
-          res.status(mockResponse.statusCode || 200);
+        if (webResponse && webResponse instanceof Response) {
+          // Set status
+          res.status(webResponse.status || 200);
           
           // Set headers
-          if (mockResponse.headers) {
-            for (const [key, value] of mockResponse.headers) {
-              res.set(key, value);
-            }
-          }
+          webResponse.headers.forEach((value, key) => {
+            res.set(key, value);
+          });
           
-          // Send response
-          if (mockResponse.headers.get('Content-Type') === 'application/json') {
-            res.send(mockResponse.body);
-          } else {
-            res.send(mockResponse.body);
-          }
+          // Send response body
+          const responseText = await webResponse.text();
+          res.send(responseText);
         } else {
           res.status(500).json({ error: 'Invalid response from endpoint' });
         }

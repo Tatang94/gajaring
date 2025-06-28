@@ -3,6 +3,7 @@ import cors from 'cors';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import fs from 'fs/promises';
+import { adaptEndpoint } from './endpointAdapter.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,14 +30,8 @@ async function handleEndpoint(req, res, endpointPath) {
       return res.status(404).json({ error: 'Endpoint not found' });
     }
 
-    // Dynamic import of the endpoint handler
-    const module = await import(`file://${fullPath}`);
-    
-    if (typeof module.handle === 'function') {
-      await module.handle(req, res);
-    } else {
-      res.status(500).json({ error: 'Invalid endpoint handler' });
-    }
+    // Use the adapter to handle TypeScript endpoint files
+    await adaptEndpoint(fullPath, req, res);
   } catch (error) {
     console.error('Endpoint error:', error);
     res.status(500).json({ 
