@@ -28,8 +28,22 @@ export const postRegister = async (
   });
 
   if (!result.ok) {
-    const errorData = await result.json();
-    throw new Error(errorData.message || "Registration failed");
+    let errorMessage = "Registration failed";
+    
+    try {
+      const errorData = await result.json();
+      errorMessage = errorData.message || errorMessage;
+    } catch (jsonError) {
+      // If JSON parsing fails, try to get the raw text response
+      try {
+        const errorText = await result.text();
+        errorMessage = errorText || `Registration failed with status ${result.status}`;
+      } catch (textError) {
+        errorMessage = `Registration failed with status ${result.status}`;
+      }
+    }
+    
+    throw new Error(errorMessage);
   }
 
   return result.json();
