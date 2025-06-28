@@ -14,13 +14,20 @@ export async function adaptEndpoint(endpointPath, req, res) {
     
     // Simple TypeScript to JavaScript conversion
     let jsContent = tsContent
-      .replace(/import\s+{([^}]+)}\s+from\s+['"]([^'"]+)['"];?/g, (match, imports, path) => {
-        // Convert relative imports
+      // Handle all import statements and convert .ts extensions to .js
+      .replace(/from\s+['"]([^'"]+)['"];?/g, (match, path) => {
+        // Convert relative imports by adding .js extension
         if (path.startsWith('./') || path.startsWith('../')) {
-          const resolvedPath = join(dirname(endpointPath), path);
-          return `const { ${imports} } = await import('${resolvedPath}.js');`;
+          // If path already has .ts extension, replace with .js
+          if (path.endsWith('.ts')) {
+            return match.replace(path, path.replace(/\.ts$/, '.js'));
+          }
+          // If no extension, add .js
+          if (!path.includes('.')) {
+            return match.replace(path, path + '.js');
+          }
         }
-        return `const { ${imports} } = await import('${path}');`;
+        return match;
       })
       .replace(/export\s+async\s+function\s+handle/g, 'async function handle')
       .replace(/: Request/g, '')
